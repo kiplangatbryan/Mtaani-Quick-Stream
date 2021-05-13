@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="stylesheet" href="../mdl/material.min.css">
+      <link href="/sprites/css-sprite/sprite-av-black.css" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <script src="../mdl/material.min.js"></script>
+      <script src="../js/jquerymlib3.1.4.js"></script>
+      <title>
+        <%=pageTitle %>
+      </title>
+    </head>
+  </head>
+  <style media="screen">
+
+      .mdl-data-table td{
+        white-space: none;
+        width: 300px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      body{
+        background: url('/pics/back.jpg');
+        background-size: cover;
+background-attachment: fixed;
+      }
+      .main-container{
+        padding: 1% 1%;
+      }
+      .support{
+        width: 100%;
+        margin-bottom: 1em;
+      }
+      .support #player{
+        height: 100%;
+        width: 100%;
+
+      }
+      .support .mdl-card__media{
+        height: 60vw;
+        background: #000;
+        display: flex;
+        justify-content: center;
+      }
+      .support .mdl-card__actions{
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        align-items: center;
+        padding: 4px auto !important;
+      }
+      .main-tab{
+        overflow-x: auto;
+      }
+      table{width: auto;}
+  </style>
+  <body>
+    <div class="main-container">
+      <div class="mdl-card support">
+         <div class="mdl-card__media">
+          <video
+          src="/service-stream/<%=title%>?show=<%=label %>"
+          id="player"
+          controls
+          autoplay='true'
+        ></video>
+         </div>
+        <div class="mdl-card__actions">
+          <div class="mdl-card__supporting-text" style="font-size: 13px;">
+            <%=title%>
+          </div>
+        </div>
+        </div>
+
+    <div class="main-tab py-3  px-sm-3" id="chart">
+      <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+    <thead>
+      <tr>
+        <th colspan="2" class="mdl-data-table__cell--non-numeric">Episodes</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <% for(const show in episodes){ %>
+        <tr>
+          <td class="mdl-data-table__cell--non-numeric sg-deck">
+            <a href="/player/<%=episodes[show].name %>?show=<%=label %>" class="mdl-color-text--grey-600"><%=episodes[show].name %></a>
+          </td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+</div>
+
+</div>
+      <script defer src="../js/mine.js"></script>
+    </script>
+  </body>
+</html>

