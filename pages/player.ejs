@@ -40,7 +40,7 @@ background-attachment: fixed;
 
       }
       .support .mdl-card__media{
-        height: 60vw;
+        height: 35vw;
         background: #000;
         display: flex;
         justify-content: center;
@@ -62,7 +62,7 @@ background-attachment: fixed;
       <div class="mdl-card support">
          <div class="mdl-card__media">
           <video
-          src="/service-stream/<%=title%>?show=<%=label %>"
+          src="/service-stream/<%=title%>?show=<%=label %>&single=<%=single %>"
           id="player"
           controls
           autoplay='true'
@@ -87,7 +87,7 @@ background-attachment: fixed;
       <% for(const show in episodes){ %>
         <tr>
           <td class="mdl-data-table__cell--non-numeric sg-deck">
-            <a href="/player/<%=episodes[show].name %>?show=<%=label %>" class="mdl-color-text--grey-600"><%=episodes[show].name %></a>
+            <a href="/player/<%=episodes[show] %>?show=<%=label %>" class="mdl-color-text--grey-600"><%=episodes[show] %></a>
           </td>
         </tr>
       <% } %>
