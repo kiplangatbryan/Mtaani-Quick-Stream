@@ -3,21 +3,29 @@ const path = require("path")
 const router = require('express').Router()
 const Fetcher = require('../bin/util')
 
-const RootDir = "/home/bryan/Music/Mine"
+  router.get("/player/:id", (req, res) => {
 
-
-  router.get("/player/:id",async (req, res) => {
     const fileName = req.params.id
     const show = req.query.show
+    const single = req.query.single || false
 
-    let pathTo = path.join(RootDir, show)
+    let pathTo = path.join(res.locals.RootDir, single ? "": show)
+    let episodes = []
 
-    let episodes = await Fetcher.getMedia(pathTo)
+    const result =  Fetcher.ScanFiles(path.join(res.locals.RootDir, fileName))
 
+
+    if (result.length > 0) {
+      return res.redirect(`/tvshow/${fileName}`)
+    }
+    
+    episodes =  Fetcher.ScanFiles(pathTo)
+    
     res.render("player", {
       pageTitle: `Load | ${fileName}`,
       title: fileName,
       episodes: episodes,
+      single,
       label: show
     })
   })
@@ -25,11 +33,12 @@ const RootDir = "/home/bryan/Music/Mine"
   router.get("/service-stream/:id", (req, res) => {
     const video = req.params.id
     const show = req.query.show
+    const single = req.params.single
 
     let temp = video.split(".")
     var ext = temp[temp.length - 1]
 
-    const mediaFile = path.join(RootDir, show,video)
+    const mediaFile = path.join(res.locals.RootDir, single ? "" : show,video)
     fs.stat(mediaFile, (err, stat) => {
       if (err) {
         console.log(err)
