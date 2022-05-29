@@ -6,7 +6,7 @@ const patches = require('./bin/util')
 const maindrive = require('./bin/player')
 
 const app = express()
-const PORT = 4000 | process.env.PORT
+const PORT = 4000 || process.env.PORT
 
 // settings
 app.set("view engine", "ejs")
@@ -18,14 +18,19 @@ app.use(cors())
 // const movies_dir = path.join("C:", "Users", "bryan", "Videos", "Movies")
 // const music_dir = path.join("C:", "Users", "bryan", "Music", "Music")
 
-const movies_dir = "/home/bryan/Movies/Haikyuu"
-const music_dir = "/home/bryan/VD"
-const RootFolder = "/home/bryan/Music/Mine"
+
+app.use((req, res, next) => {
+  res.locals = { 
+    RootDir: "D:\\kevo\\movies", 
+    music_dir: "D:\\kevo\\Denis",
+    movies_dir: "D:\\kevo\\Denis",
+  }
+  next()
+})
 
 app.get("/", async (req, res) => {
 
-  const shows = await patches.getMedia(RootFolder)
-
+  const shows = await patches.getMedia(res.locals.RootDir)
 
   res.render("index", {
     pageTitle: "Home | Locale",
@@ -36,26 +41,24 @@ app.get("/", async (req, res) => {
 app.get('/tvshow/:show',async (req, res) => {
   const show = req.params.show
 
+  try {
+    const result = fs.readdirSync(path.join(res.locals.RootDir, show))
 
-  fs.readdir(path.join(RootFolder, show),(err, files) => {
-    if (err) {
-       return res.redirect('/player/'+ show+'/?show=\./')
-    }
-})
+  }
+  catch(err) {
+      return res.redirect(`/player/${show}?show=\/&single=true`)
+  }
 
-  let pathTo = path.join(RootFolder, show) 
-   
+  let pathTo = path.join(res.locals.RootDir, show) 
+  
+  let episodes = await patches.ScanFiles(pathTo)
 
-  let episodes = await patches.getMedia(pathTo)
-  let  episodesArray = []
-  episodes.forEach((item, i) => {
-      episodesArray.push(item.name)
-  });
-  episodes = episodesArray.sort()
+  episodes = episodes.sort()
 
   res.render('main', {
     pageTitle: show + ' | Locale',
     episodes: episodes,
+    title: episodes[0],
     label: show
   })
 
@@ -68,7 +71,7 @@ app.get("/search", async (req, res) => {
 
   if (query.path == "/") {
     // run  a loop
-    movies = await require("./bin/util").getMedia(movies_dir)
+    movies = await require("./bin/util").getMedia(res.locals.movies_dir)
 
     movies.forEach(function ({ name }) {
       name = name.toLocaleLowerCase()
@@ -78,7 +81,7 @@ app.get("/search", async (req, res) => {
       }
     })
   } else if (query.path == "/music") {
-    music = await require("./bin/util").getMedia(music_dir)
+    music = await require("./bin/util").getMedia(res.locals.music_dir)
 
     music.forEach(function ({ name }) {
       name = name.toLocaleLowerCase()
