@@ -4,11 +4,25 @@ const getMedia = async function (pathTo) {
   let videos = []
   const dirs = await fs.promises.opendir(pathTo)
 
+
   for await (const dir of dirs) {
     videos.push({ name: dir.name })
   }
   return videos
 }
+
+const ScanFiles = function (pathTo) {
+   var files = []
+   try {
+       files = fs.readdirSync(pathTo)
+   }
+   catch(err) {
+      // 
+   }
+   return files
+} 
+
+
 
 const Init = async (app, target)=> {
   var videos = await getMedia(target)
@@ -21,4 +35,4 @@ const Init = async (app, target)=> {
  })
 }
 
-module.exports = { getMedia, Init }
+module.exports = { getMedia, Init, ScanFiles }
